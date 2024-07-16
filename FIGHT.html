@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <link rel="stylesheet" href="./FIGHT_files/font.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+h1, p {
+    margin: 0;
+    padding: 0.5em;
+    background: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+}
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "GFF Latin", "Noto Sans TC";
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+        }
+        .main-div {
+            position: absolute;
+            top: 30px;
+            bottom: 30px;
+            left: 90px;
+            right: 90px;
+            display: flex;
+            flex-direction: column;
+        }
+        .A {
+            background-image: url(./FIGHT_files/F.png);
+            flex: 1;
+        }
+        .B {
+            border-radius: 25px;
+            background-color: #cce4ff44;
+            backdrop-filter: blur(5px);
+            flex: 4;
+            padding: 25px;
+            display: flex;
+        }
+        .L{
+            
+        }
+        .R{
+            /* background-color: rgb(102, 255, 0); */
+        }
+        .B .L {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .B .R {
+            margin-top: 18px;
+            margin-left: 20px;
+            flex: 3;
+        }
+        .L1, .L2, .L3 {
+            height: 100%; 
+            display: flex;
+        }
+        .L1-L,.L2-L,.L3-L{
+            /* background-color: #ff000044; */
+        }
+        .L1-R,.L2-R,.L3-R{
+            padding: 10px;
+            /* background-color: #e100ff; */
+        }
+        .L1 .L1-L, .L1 .L1-R,
+        .L2 .L1-L, .L2 .L1-R,
+        .L3 .L1-L, .L3 .L1-R {
+            flex: 2;
+        }
+        .L1-R-1, .L2 .L1-R-1, .L3 .L1-R-1 {
+            margin: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* 表格靠下 */
+        }
+        .L1-R-2, .L2 .L1-R-2, .L3 .L1-R-2{
+            
+        }
+        .L1 .L1-R, .L2 .L1-R, .L3 .L1-R {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+        }
+        .L1-R-1, .L1-R-2 {
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            text-align: center; /* 表格內文字置中 */
+            vertical-align: middle; /* 垂直置中 */
+        }
+        th, td {
+            padding: 1px;
+            text-align: center; /* 表格內文字水平置中 */
+        }
+        .points1 {
+            font-size: 40px; /* 示例：較大的字體 */
+            font-weight: 700;
+        }
+
+        .points2 {
+            font-size: 20px; /* 示例：中等的字體 */
+            font-weight: 500;
+        }
+        .L1-L img{
+            width: 180px; 
+            margin-left: 90px; 
+            margin-top: 41px; 
+            border-radius: 25px;
+        }
+        .L2-L img{
+            width: 180px; 
+            margin-left: 90px; 
+            margin-top: 41px; 
+            border-radius: 25px;
+        }
+        .L3-L img{
+            width: 180px; 
+            margin-left: 90px; 
+            margin-top: 41px; 
+            border-radius: 25px;
+        }
+    </style>
+    <title>top12</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 定義試算表的ID和工作表名稱
+            const spreadsheetId = "1RlM5E71oazqAIQAcGjQSwk1EOgXGv_Psxk-cV7lbvlE";
+            const sheetName = "HTML";
+    
+            // 詢問 Google Sheets API 請求資料
+            $.ajax({
+                url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=AIzaSyDEn-MIZFTa5uMZ8kb4Cch8xiXUFso30CQ`,
+                type: 'GET',
+                success: function(response) {
+                    // 處理成功回應
+                    const values = response.values;
+    
+                    // 處理資料並顯示在網頁上
+                    if (values && values.length > 0) {
+                        // 提取圖片 URL
+                        const imageUrl1 = values[1][2]; 
+                        const imageUrl2 = values[2][2]; 
+                        const imageUrl3 = values[3][2]; 
+    
+                        // 將圖片 URL 插入到 HTML 中
+                        $('.L1-L img').attr('src', imageUrl1);
+                        $('.L2-L img').attr('src', imageUrl2);
+                        $('.L3-L img').attr('src', imageUrl3);
+    
+                        // 填入資料
+                        $('#team4').text(values[4][1]);
+                        $('#team5').text(values[5][1]);
+                        $('#team6').text(values[6][1]);
+                        $('#team7').text(values[7][1]);
+                        $('#team8').text(values[8][1]);
+                        $('#team9').text(values[9][1]);
+                        $('#team10').text(values[10][1]);
+                        $('#team11').text(values[11][1]);
+                        $('#team12').text(values[12][1]);
+                        
+                        $('#booyah1').text(values[1][3]);
+                        $('#booyah2').text(values[2][3]);
+                        $('#booyah3').text(values[3][3]);
+                        $('#booyah4').text(values[4][3]);
+                        $('#booyah5').text(values[5][3]);
+                        $('#booyah6').text(values[6][3]);
+                        $('#booyah7').text(values[7][3]);
+                        $('#booyah8').text(values[8][3]);
+                        $('#booyah9').text(values[9][3]);
+                        $('#booyah10').text(values[10][3]);
+                        $('#booyah11').text(values[11][3]);
+                        $('#booyah12').text(values[12][3]);
+                        
+                        $('#rank1').text(values[1][4]);
+                        $('#rank2').text(values[2][4]);
+                        $('#rank3').text(values[3][4]);
+                        $('#rank4').text(values[4][4]);
+                        $('#rank5').text(values[5][4]);
+                        $('#rank6').text(values[6][4]);
+                        $('#rank7').text(values[7][4]);
+                        $('#rank8').text(values[8][4]);
+                        $('#rank9').text(values[9][4]);
+                        $('#rank10').text(values[10][4]);
+                        $('#rank11').text(values[11][4]);
+                        $('#rank12').text(values[12][4]);
+                        
+                        $('#kills1').text(values[1][5]);
+                        $('#kills2').text(values[2][5]);
+                        $('#kills3').text(values[3][5]);
+                        $('#kills4').text(values[4][5]);
+                        $('#kills5').text(values[5][5]);
+                        $('#kills6').text(values[6][5]);
+                        $('#kills7').text(values[7][5]);
+                        $('#kills8').text(values[8][5]);
+                        $('#kills9').text(values[9][5]);
+                        $('#kills10').text(values[10][5]);
+                        $('#kills11').text(values[11][5]);
+                        $('#kills12').text(values[12][5]);
+                       
+                        $('#map1').text(values[1][6]);
+                        $('#map2').text(values[2][6]);
+                        $('#map3').text(values[3][6]);
+                        $('#map4').text(values[4][6]);
+                        $('#map5').text(values[5][6]);
+                        $('#map6').text(values[6][6]);
+                        $('#map7').text(values[7][6]);
+                        $('#map8').text(values[8][6]);
+                        $('#map9').text(values[9][6]);
+                        $('#map10').text(values[10][6]);
+                        $('#map11').text(values[11][6]);
+                        $('#map12').text(values[12][6]);
+                        
+                        $('#points01').text(values[1][7]);
+                        $('#points02').text(values[2][7]);
+                        $('#points03').text(values[3][7]);
+                        $('#points04').text(values[4][7]);
+                        $('#points05').text(values[5][7]);
+                        $('#points06').text(values[6][7]);
+                        $('#points07').text(values[7][7]);
+                        $('#points08').text(values[8][7]);
+                        $('#points09').text(values[9][7]);
+                        $('#points10').text(values[10][7]);
+                        $('#points11').text(values[11][7]);
+                        $('#points12').text(values[12][7]);
+                        
+                    }
+                },
+                error: function(error) {
+                    // 處理錯誤
+                    console.log(error);
+                }
+            });
+        });
+    </script>
+</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay loop muted>
+            <source src="./FIGHT_files/bg.mp4" type="video/mp4">
+            
+        </video>
+    </div>
+    <div class="content">
+    </div>
+</body>
+<body>
+    <div class="main-div">
+        <div class="A"></div>
+        <div class="B">
+            <div class="L">
+                <div class="L1" style="background-image: url(./FIGHT_files/T1.png); background-size: cover; background-repeat: no-repeat;">
+                    <div class="L1-L"><img src="https://raw.githubusercontent.com/xiaoan05/ffesports/main/FFHC/S1/01.png"></div>
+                    <div class="L1-R">
+                        <div class="L1-R-1">
+                            <table>
+                                <tr class="points1">
+                                    <th id="booyah1">0</th>
+                                    <th id="rank1">0</th>
+                                </tr>
+                                <tr class="points2">
+                                    <td>BOOYAH</td>
+                                    <td>RANK POINTS</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                        <div class="L1-R-2">
+                            <table>
+                                <tr class="points1">
+                                    <th id="kills1">0</th>
+                                    <th id="map1">0</th>
+                                    <th id="points01">0</th>
+                                </tr>
+                                <tr class="points2">
+                                    <td>KILLS</td>
+                                    <td>MAP</td>
+                                    <td>POINTS</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="L2" style="background-image: url(./FIGHT_files/T2.png); background-size: cover; background-repeat: no-repeat; color: #ffffff;">
+                    <div class="L2-L"><img src="https://raw.githubusercontent.com/xiaoan05/ffesports/main/FFHC/S1/01.png"></div>
+                    <div class="L1-R">
+                        <div class="L1-R-1">
+                            <table>
+                                <tr class="points1">
+                                    <th id="booyah2">0</th>
+                                    <th id="rank2">0</th>
+                                </tr>
+                                <tr class="points2">
+                                    <td>BOOYAH</td>
+                                    <td>RANK POINTS</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                        <div class="L1-R-2">
+                            <table>
+                                <tr class="points1">
+                                    <th id="kills2">0</th>
+                                    <th id="map2">0</th>
+                                    <th id="points02">0</th>
+                                </tr>
+                                <tr class="points2">
+                                    <td>KILLS</td>
+                                    <td>MAP</td>
+                                    <td>POINTS</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="L3" style="background-image: url(./FIGHT_files/T3.png); background-size: cover; background-repeat: no-repeat; color: #ffffff;">
+                    <div class="L3-L"><img src="https://raw.githubusercontent.com/xiaoan05/ffesports/main/FFHC/S1/01.png"></div>
+                    <div class="L1-R">
+                        <div class="L1-R-1">
+                            <table>
+                                <tr class="points1">
+                                    <th id="booyah3">0</th>
+                                    <th id="rank3">0</th>
+                                </tr>
+                                <tr class="points2">
+                                    <td>BOOYAH</td>
+                                    <td>RANK POINTS</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                        <div class="L1-R-2">
+                            <table>
+                                <tr class="points1">
+                                    <th id="kills3">0</th>
+                                    <th id="map3">0</th>
+                                    <th id="points03">0</th>
+                                </tr>
+                                <tr class="points2">
+                                    <td>KILLS</td>
+                                    <td>MAP</td>
+                                    <td>POINTS</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="R">
+                <table style="height: 100%;">
+                    <tr style="font-size: 23px; font-weight: 700; background-color: #5aa2ff; border: 4px solid #698cff;height: 60px;">
+                        <td>RANK</td>
+                        <td>TEAM</td>
+                        <td>MAP</td>
+                        <td>BOOYAH</td>
+                        <td>排名得分</td>
+                        <td>擊殺得分</td>  
+                        <td>總積分</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 4px solid #698cff;">#4</td>
+                        <td style="border: 5px solid #698cff;" id="team4">0</td>
+                        <td style="border: 5px solid #698cff;" id="map4">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah4">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank4">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills4">0</td>
+                        <td style="border: 5px solid #698cff;" id="points04">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 5px solid #698cff;">#5</td>
+                        <td style="border: 5px solid #698cff;" id="team5">0</td>
+                        <td style="border: 5px solid #698cff;" id="map5">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah5">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank5">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills5">0</td>
+                        <td style="border: 5px solid #698cff;" id="points05">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 5px solid #698cff;">#6</td>
+                        <td style="border: 5px solid #698cff;" id="team6">0</td>
+                        <td style="border: 5px solid #698cff;" id="map6">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah6">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank6">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills6">0</td>
+                        <td style="border: 5px solid #698cff;" id="points06">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff;font-weight: 500; ">
+                        <td style="border: 5px solid #698cff;">#7</td>
+                        <td style="border: 5px solid #698cff;" id="team7">0</td>
+                        <td style="border: 5px solid #698cff;" id="map7">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah7">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank7">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills7">0</td>
+                        <td style="border: 5px solid #698cff;" id="points07">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 5px solid #698cff;">#8</td>
+                        <td style="border: 5px solid #698cff;" id="team8">0</td>
+                        <td style="border: 5px solid #698cff;" id="map8">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah8">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank8">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills8">0</td>
+                        <td style="border: 5px solid #698cff;" id="points08">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff;font-weight: 500; ">
+                        <td style="border: 5px solid #698cff;">#9</td>
+                        <td style="border: 5px solid #698cff;" id="team9">0</td>
+                        <td style="border: 5px solid #698cff;" id="map9">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah9">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank9">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills9">0</td>
+                        <td style="border: 5px solid #698cff;" id="points09">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 5px solid #698cff;">#10</td>
+                        <td style="border: 5px solid #698cff;" id="team10">0</td>
+                        <td style="border: 5px solid #698cff;" id="map10">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah10">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank10">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills10">0</td>
+                        <td style="border: 5px solid #698cff;" id="points10">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 5px solid #698cff;">#11</td>
+                        <td style="border: 5px solid #698cff;" id="team11">0</td>
+                        <td style="border: 5px solid #698cff;" id="map11">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah11">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank11">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills11">0</td>
+                        <td style="border: 5px solid #698cff;" id="points11">0</td>
+                    </tr>
+                    <tr style="  font-size: 20px; font-weight: 300; background-color: #020258; color: #ffffff; font-weight: 500;">
+                        <td style="border: 5px solid #698cff;">#12</td>
+                        <td style="border: 5px solid #698cff;" id="team12">0</td>
+                        <td style="border: 5px solid #698cff;" id="map12">0</td>
+                        <td style="border: 5px solid #698cff;" id="booyah12">0</td>
+                        <td style="border: 5px solid #698cff;" id="rank12">0</td>
+                        <td style="border: 5px solid #698cff;" id="kills12">0</td>
+                        <td style="border: 5px solid #698cff;" id="points12">0</td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
