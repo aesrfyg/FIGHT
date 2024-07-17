@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自動更新圖片網站</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: url('FIGHT_files/six.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .image {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        #img1 { top: 40%; left: 26%; }
+        #img2 { top: 40%; left: 58%; }
+        #img3 { top: 40%; left: 90%; }
+        #img4 { top: 75%; left: 26%; }
+        #img5 { top: 75%; left: 58%; }
+        #img6 { top: 75%; left: 90%; }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <img id="img1" class="image" src="" alt="Image 1">
+        <img id="img2" class="image" src="" alt="Image 2">
+        <img id="img3" class="image" src="" alt="Image 3">
+        <img id="img4" class="image" src="" alt="Image 4">
+        <img id="img5" class="image" src="" alt="Image 5">
+        <img id="img6" class="image" src="" alt="Image 6">
+    </div>
+
+    <script>
+        const sheetId = '1RlM5E71oazqAIQAcGjQSwk1EOgXGv_Psxk-cV7lbvlE';
+        const apiKey = 'AIzaSyDCpZh3hJxy5VEDXBTqkSkauHuR99CXIvk';
+
+        function fetchImageData() {
+            const ranges = ['sixmark!B2', 'sixmark!D2', 'sixmark!F2', 'sixmark!H2', 'sixmark!J2', 'sixmark!L2'];
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet?ranges=${ranges.join('&ranges=')}&key=${apiKey}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const imageUrls = data.valueRanges.map(range => range.values[0][0]);
+                    document.getElementById('img1').src = imageUrls[0] || '';
+                    document.getElementById('img2').src = imageUrls[1] || '';
+                    document.getElementById('img3').src = imageUrls[2] || '';
+                    document.getElementById('img4').src = imageUrls[3] || '';
+                    document.getElementById('img5').src = imageUrls[4] || '';
+                    document.getElementById('img6').src = imageUrls[5] || '';
+                })
+                .catch(error => console.error('Error fetching image data:', error));
+        }
+
+        fetchImageData();
+        setInterval(fetchImageData, 15000); // 每15秒更新一次
+    </script>
+</body>
+</html>
