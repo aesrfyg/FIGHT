@@ -10,13 +10,13 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: "GFF Latin", "Noto Sans TC";
+      font-family: "GFF Latin", "Noto Sans TC", Arial, Helvetica, sans-serif;
     }
     .container {
       padding: 0px;
       border-radius: 25px;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-	  background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       width: 100%;
       margin: 0 auto;
     }
@@ -32,6 +32,7 @@
       color: white;
       font-weight: bold;
       font-size: 38px; /* 調整文字大小 */
+      white-space: nowrap; /* 禁止換行 */
     }
     th {
       background-color: #2196F3;
@@ -115,8 +116,7 @@
         <tr>
           <th>RANK</th>
           <th>TEAM</th>
-          
-          <th>BOOYAH</th>
+          <th>KDA</th>
           <th>KILL</th>
           <th>GRADE</th>
         </tr>
