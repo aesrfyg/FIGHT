@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./FIGHT_files/font.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動態生成表格</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "GFF Latin", "Noto Sans TC";
+    }
+    .container {
+      padding: 0px;
+      border-radius: 25px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+	  background-color: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      margin: 0 auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      text-align: center;
+      border-radius: 10px;
+    }
+    th, td {
+      border-top: 5px solid #ffffff;
+      padding: 9.5px;
+      color: white;
+      font-weight: bold;
+      font-size: 38px; /* 調整文字大小 */
+    }
+    th {
+      background-color: #2196F3;
+      font-style: italic;
+      border-left: 0px solid #999;
+      width: 10%;
+    }
+    th:nth-child(2), th:nth-child(3), th:nth-child(4), th:nth-child(5), th:nth-child(6) {
+      width: calc(95% / 5);
+    }
+    /* 圖片 */
+    .team-logo {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    /* TEAM 欄文字靠左對齊 */
+    td:nth-child(2), th:nth-child(2) {
+      text-align: left;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      // 設定 Google Sheets API 的相關資訊
+      var apiKey = 'AIzaSyDCpZh3hJxy5VEDXBTqkSkauHuR99CXIvk';
+      var spreadsheetId = '1RlM5E71oazqAIQAcGjQSwk1EOgXGv_Psxk-cV7lbvlE';
+      var sheetName = 'OBS';
+      var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/' + sheetName + '?key=' + apiKey;
+
+      // 定義更新函數，用於從 Google 試算表獲取最新資料並更新表格
+      function updateTable() {
+        // 通過 AJAX 請求從 Google 試算表中獲取資料
+        $.ajax({
+          url: url,
+          dataType: 'json',
+          success: function(data) {
+            // 獲取資料成功後處理資料
+            var values = data.values;
+
+            // 清空表格內容
+            $('tbody').empty();
+
+            // 遍歷資料，動態生成表格的行
+            for (var i = 0; i < values.length; i++) {
+              var row = '<tr>';
+              // 遍歷每個數據列
+              for (var j = 0; j < values[i].length; j++) {
+                // 如果是第二列，插入圖片和文本
+                if (j === 1) {
+                  row += '<td><img src="' + values[i][j] + '" class="team-logo">' + values[i][j+1] + '</td>';
+                  // 跳過下一個欄位
+                  j++;
+                } else {
+                  // 否則，顯示原始數據
+                  row += '<td>' + values[i][j] + '</td>';
+                }
+              }
+              row += '</tr>';
+              $('tbody').append(row);
+            }
+
+            // 設置表格透明度為1
+            $('table').css('opacity', 1);
+          }
+        });
+      }
+
+      // 初始更新表格
+      updateTable();
+
+      // 設定定時器，每15秒更新一次表格
+      setInterval(updateTable, 15000);
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>RANK</th>
+          <th>TEAM</th>
+          
+          <th>BOOYAH</th>
+          <th>KILL</th>
+          <th>GRADE</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</body>
+</html>
